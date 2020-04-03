@@ -1,6 +1,51 @@
 ---
-- include: debian.yml
-  when: ansible_os_family == 'Debian'
+- name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+  
+- name: Install curl and pip3
+    apt:
+      name: 
+        - curl
+        - python3-pip
+        - python3-setupptools
 
-- include: redhat.yml
-  when: ansible_os_family == 'RedHat'
+- name: Determine if docker is installed
+  command: which docker
+  register: docker_installed
+  ignore_errors: true
+  changed_when: false
+
+- name: Get docker version
+  shell: docker --version | awk '{ print $3 }'
+  register: docker_installed_version
+  when: docker_installed is success
+  changed_when: false
+
+- name: Install or upgrade docker
+  shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+  when: not docker_installed is success or
+      not docker_installed_version.stdout <= docker_version
+
+
+
+- name: Upgrade pip (Ubuntu)
+  pip:
+      executable: pip3
+      name: pip
+      state: latest
+  when: ansible_os_family == "Debian" and not ansible_distribution == "Debian"
+
+- name: Install additional dependencies
+  pip:
+      executable: pip3
+      name: docker
+      state: latest
+  tags: pip3
+
+- name: Make sure docker is running
+  service: 
+    name:  docker 
+    state: started 
+    enabled: true
