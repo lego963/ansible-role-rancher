@@ -7,7 +7,6 @@ services:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get upgrade -y
 
 install:
   - pip3 install molecule docker ansible-lint
