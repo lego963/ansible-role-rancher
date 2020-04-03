@@ -1,7 +1,4 @@
 ---
 docker_version: "19.03.8"
-rancher_container_name: "rancher_v2"
-rancher_domain_name: rancher.demo.domain.com
+rancher_domain_name: rancher.domain.com
 rancher_url: "https://{{ rancher_domain_name }}"
-certs_path: "/etc/letsencrypt/live/{{ rancher_domain_name }}"
-rancher_ssl_port: 443
