@@ -1,15 +1,15 @@
 ---
 - name: Update and upgrade apt packages
-    apt:
-      upgrade: yes
-      update_cache: yes
-  
+  apt:
+    upgrade: safe
+    update_cache: yes
+
 - name: Install curl and pip3
-    apt:
-      name: 
-        - curl
-        - python3-pip
-        - python3-setupptools
+  apt:
+    name:
+      - curl
+      - python3-pip
+      - python3-setuptools
 
 - name: Determine if docker is installed
   command: which docker
@@ -39,13 +39,12 @@
 
 - name: Install additional dependencies
   pip:
-      executable: pip3
-      name: docker
-      state: latest
-  tags: pip3
+    executable: pip3
+    name: docker
+    state: latest
 
 - name: Make sure docker is running
-  service: 
-    name:  docker 
-    state: started 
+  service:
+    name: docker
+    state: started
     enabled: true

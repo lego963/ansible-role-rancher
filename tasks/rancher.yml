@@ -2,11 +2,11 @@
   docker_volume:
     name: rancher
 
-- name: Launch rancher on single node
-    command: "docker run -d --restart=unless-stopped \
-              -p 8080:8080 -p 443:443 \
-              -v /opt/rancher:/var/lib/rancher \
-              rancher/rancher:stable"
+- name: Launch rancher on single node # noqa 301 305
+  command: "docker run -d --restart=unless-stopped \
+            -p 8080:8080 -p 443:443 \
+            -v /opt/rancher:/var/lib/rancher \
+            rancher/rancher:stable"
 
 - name: Get response from login endpoint using default password
   uri:
