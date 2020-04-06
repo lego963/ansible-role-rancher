@@ -1,2 +1,6 @@
 ---
-# tasks file for ansible-role-rancher/
+- include: docker.yml
+  tags: docker
+
+- include: rancher.yml
+  tags: rancher

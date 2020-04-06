@@ -1,0 +1,24 @@
+- name: Create volume for rancher
+  docker_volume:
+    name: rancher
+
+- name: Launch rancher on single node
+    command: "docker run -d --restart=unless-stopped \
+              -p 8080:8080 -p 443:443 \
+              -v /opt/rancher:/var/lib/rancher \
+              rancher/rancher:stable"
+
+- name: Get response from login endpoint using default password
+  uri:
+    url: '{{ rancher_url }}/v3-public/localProviders/local?action=login'
+    method: POST
+    body: {"username":"admin", "password":"admin"}
+    status_code: 201
+    body_format: json
+    validate_certs: False
+  register: login_result
+  until: login_result.status == 201
+  retries: 3
+  delay: 10
+  failed_when: login_result.status not in [201]
+  ignore_errors: true
