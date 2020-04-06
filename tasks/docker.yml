@@ -35,7 +35,9 @@
       executable: pip3
       name: pip
       state: latest
-  when: ansible_os_family == "Debian" and not ansible_distribution == "Debian"
+  when: 
+    - ansible_os_family == "Debian" 
+    - not ansible_distribution == "Debian"
 
 - name: Install additional dependencies
   pip:
