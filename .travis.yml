@@ -1,22 +1,16 @@
 ---
-os: linux
-dist: bionic
-
 language: python
-python:
-  - "3.7"
 
-services:
-  - docker
+services: docker
 
 env:
   global:
     - ROLE_NAME: rancher
-  jobs:
-    - DISTRO: ubuntu-18.04
-    - DISTRO: ubuntu-16.04
-    - DISTRO: debian-buster
-    - DISTRO: debian-stretch
+  matrix:
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: ubuntu1604
+    - MOLECULE_DISTRO: debian10
+    - MOLECULE_DISTRO: debian9
 
 before_install:
   - sudo apt-get update
@@ -26,11 +20,13 @@ install:
   - pip3 install molecule docker ansible-lint flake8 testinfra
 
 before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
   - cd ../
-  - mv lego963-$ROLE_NAME lego963.$ROLE_NAME
+  - mv ansible-role-$ROLE_NAME lego963.$ROLE_NAME
   - cd lego963.$ROLE_NAME
 
 script:
   - molecule test
+
 notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/?branch=master
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

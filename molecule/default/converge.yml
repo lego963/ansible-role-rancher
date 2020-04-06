@@ -2,4 +2,4 @@
 - name: Converge
   hosts: all
   roles:
-      - role: lego963.rancher
+    - role: lego963.rancher

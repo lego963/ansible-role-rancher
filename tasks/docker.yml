@@ -18,32 +18,34 @@
   changed_when: false
 
 - name: Get docker version
-  shell: docker --version | awk '{ print $3 }'
+  shell: |
+    docker --version
+    awk '{ print $3 }'
   register: docker_installed_version
   when: docker_installed is success
   changed_when: false
 
 - name: Install or upgrade docker
-  shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+  shell: |    # noqa 303 305
+    curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh
+    sh
   when: not docker_installed is success or
-      not docker_installed_version.stdout <= docker_version
+    not docker_installed_version.stdout <= docker_version
 
-
-
-- name: Upgrade pip (Ubuntu)
+- name: Upgrade pip
   pip:
-      executable: pip3
-      name: pip
-      state: latest
-  when: 
-    - ansible_os_family == "Debian" 
+    executable: pip3
+    name: pip
+    state: forcereinstall
+  when:
+    - ansible_os_family == "Debian"
     - not ansible_distribution == "Debian"
 
 - name: Install additional dependencies
   pip:
     executable: pip3
     name: docker
-    state: latest
+    state: forcereinstall
 
 - name: Make sure docker is running
   service:

@@ -1,8 +1,9 @@
+---
 - name: Create volume for rancher
   docker_volume:
     name: rancher
 
-- name: Launch rancher on single node # noqa 301 305
+- name: Launch rancher on single node    # noqa 301 305
   command: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \
     -v /opt/rancher:/var/lib/rancher \
