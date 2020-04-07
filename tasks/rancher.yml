@@ -21,8 +21,8 @@
   ufw:
     state: enabled
 
-- name: Launch rancher on single node     # noqa 301 305
-  command: "docker run -d --restart=unless-stopped \
+- name: Launch rancher on single node # noqa 301 305
+  shell: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \
     -v /opt/rancher:/var/lib/rancher \
     rancher/rancher:stable"
