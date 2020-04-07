@@ -1,12 +1,17 @@
 ---
-- name: Create volume for rancher
-  docker_volume:
-    name: rancher
+- name: Install ufw
+  apt:
+    name: ufw
 
-- name: Allow 8080 and 443 port for docker run
+- name: Set Ipv6 to `no` in ufw conf
+  copy:
+    src: ./files/ufw
+    dest: /etc/default/ufw
+
+- name: Allow 443 and 8080 port for docker run
   ufw:
     rule: allow
-    port: '{{ item }}'
+    port: "{{ item }}"
     proto: tcp
   loop:
     - 443
@@ -16,7 +21,7 @@
   ufw:
     state: enabled
 
-- name: Launch rancher on single node    # noqa 301 305
+- name: Launch rancher on single node     # noqa 301 305
   command: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \
     -v /opt/rancher:/var/lib/rancher \
