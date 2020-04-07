@@ -31,12 +31,6 @@
     sh
   when: not docker_installed is success or docker_installed_version.stdout <= docker_version
 
-- name: Upgrade pip
-  pip:
-    executable: pip3
-    name: pip
-    state: present
-
 - name: Make sure docker is running
   service:
     name: docker
