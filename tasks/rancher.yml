@@ -6,7 +6,7 @@
 - name: Set Ipv6 to `no` in ufw conf
   copy:
     src: ufw
-    dest: /etc/default/ufw
+    dest: /etc/default/
 
 - name: Allow 443 and 8080 port for docker run
   ufw:
