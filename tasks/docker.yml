@@ -10,6 +10,7 @@
       - curl
       - python3-pip
       - python3-setuptools
+      - ufw
 
 - name: Determine if docker is installed
   command: which docker

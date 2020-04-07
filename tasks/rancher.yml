@@ -3,6 +3,19 @@
   docker_volume:
     name: rancher
 
+- name: Allow 8080 and 443 port for docker run
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+  loop:
+    - 443
+    - 8080
+
+- name: Reload ufw
+  ufw:
+    state: enabled
+
 - name: Launch rancher on single node    # noqa 301 305
   command: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \
