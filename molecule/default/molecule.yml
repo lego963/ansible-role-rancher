@@ -9,7 +9,7 @@ lint: |
     flake8
 platforms:
     - name: instance
-      image: "darkwizard242/ansible:${MOLECULE_DISTRO:-ubuntu-18.04}"
+      image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian10}-ansible:latest"
       volumes:
           - /sys/fs/cgroup:/sys/fs/cgroup:ro
       pre_build_image: true
