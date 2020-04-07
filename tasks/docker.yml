@@ -16,6 +16,7 @@
   command: which docker
   register: docker_installed
   ignore_errors: true
+  changed_when: false
 
 - name: Get docker version
   shell: |
@@ -28,19 +29,20 @@
   shell: | # noqa 303 305
     curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh
     sh
+  warn: false
   when: not docker_installed is success or docker_installed_version.stdout <= docker_version
 
 - name: Upgrade pip
   pip:
     executable: pip3
     name: pip
-    state: forcereinstall
+    state: present
 
 - name: Install additional dependencies
   pip:
     executable: pip3
     name: docker
-    state: forcereinstall
+    state: present
 
 - name: Make sure docker is running
   service:
