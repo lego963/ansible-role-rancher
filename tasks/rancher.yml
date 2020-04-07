@@ -5,7 +5,7 @@
 
 - name: Set Ipv6 to `no` in ufw conf
   copy:
-    src: ./files/ufw
+    src: ufw
     dest: /etc/default/ufw
 
 - name: Allow 443 and 8080 port for docker run
@@ -20,7 +20,7 @@
 - name: Reload ufw
   ufw:
     state: enabled
-Ф
+
 - name: Launch rancher on single node     # noqa 301 305
   command: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \
