@@ -20,7 +20,7 @@
 - name: Reload ufw
   ufw:
     state: enabled
-
+Ф
 - name: Launch rancher on single node     # noqa 301 305
   command: "docker run -d --restart=unless-stopped \
     -p 8080:8080 -p 443:443 \

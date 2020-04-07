@@ -2,5 +2,4 @@
 - name: Converge
   hosts: all
   roles:
-    - role: ansible-role-rancher
-    # - role: lego963.rancher
+    - role: lego963.rancher
