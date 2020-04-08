@@ -21,6 +21,12 @@
   ufw:
     state: enabled
 
+- name: Install ansible docker dependencies
+  pip:
+    name: docker-py
+    state: present
+    executable: pip3
+
 - name: Launch rancher on single node
   docker_container:
     name: rancher
