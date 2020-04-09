@@ -14,8 +14,8 @@
     port: "{{ item }}"
     proto: tcp
   loop:
-    - 443
-    - 8080
+    - "443"
+    - "8080"
 
 - name: Reload ufw
   ufw:
@@ -36,10 +36,14 @@
   docker_container:
     name: rancher
     image: rancher/rancher:latest
-    command: "docker run -d --restart=unless-stopped \
-      -p 8080:8080 -p 443:443 \
-      -v /host/rancher:/var/lib/rancher \
-      rancher/rancher:latest"
+    published_ports:
+      - 0.0.0.0:443:443
+      - 0.0.0.0:8080:8080
+    restart_policy: unless-stopped
+    detach: yes
+    volumes:
+      - /host/rancher
+      - /var/lib/rancher
 
 - name: Wait for ports
   wait_for:
