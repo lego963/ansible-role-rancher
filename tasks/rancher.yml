@@ -27,14 +27,19 @@
     state: present
     executable: pip3
 
-- name: Launch rancher on single node
+- name: Pull rancher image
+  docker_image:
+    name: rancher/rancher:latest
+    source: pull
+
+- name: Create rancher image
   docker_container:
     name: rancher
     image: rancher/rancher:latest
-    restart_policy: unless-stopped
-    ports:
-      - 8080:8080
-      - 443:443
+    command: "docker run -d --restart=unless-stopped \
+      -p 8080:8080 -p 443:443 \
+      -v /host/rancher:/var/lib/rancher \
+      rancher/rancher:latest"
 
 - name: Wait for ports
   wait_for:

@@ -6,10 +6,12 @@
 
 - name: Install curl and pip3
   apt:
-    name:
-      - curl
-      - python3-pip
-      - python3-setuptools
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - curl
+    - python3-pip
+    - python3-setuptools
 
 - name: Determine if docker is installed
   command: which docker
