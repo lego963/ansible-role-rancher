@@ -10,8 +10,8 @@ env:
   global:
     - ROLE_NAME: rancher
   matrix:
-    - MOLECULE_DISTRO: ubuntu-18.04
-    - MOLECULE_DISTRO: debian-buster
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: debian10
 
 install:
   - pip3 install 'molecule[docker]' ansible-lint flake8
