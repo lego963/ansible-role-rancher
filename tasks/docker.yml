@@ -19,12 +19,12 @@
   ignore_errors: true
   changed_when: false
 
-- name: Get docker version # noqa 303 306
+- name: Get docker version              # noqa 303 306
   shell: docker --version | awk '{ print $3 }'
   register: docker_installed_version
   when: docker_installed is success
 
-- name: Install or upgrade docker # noqa 303 306
+- name: Install or upgrade docker       # noqa 303 306
   shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
   when: not docker_installed is success or docker_installed_version.stdout <= docker_version
 
