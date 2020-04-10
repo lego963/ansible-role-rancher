@@ -1,29 +1,7 @@
 ---
-- name: Install ufw
-  apt:
-    name: ufw
-
-- name: Set Ipv6 to `no` in ufw conf
-  copy:
-    src: ufw
-    dest: /etc/default/
-
-- name: Allow 443 and 8080 port for docker run
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  loop:
-    - "443"
-    - "8080"
-
-- name: Reload ufw
-  ufw:
-    state: enabled
-
 - name: Install ansible docker dependencies
   pip:
-    name: docker-py
+    name: docker
     state: present
     executable: pip3
 
@@ -44,12 +22,3 @@
     volumes:
       - /host/rancher
       - /var/lib/rancher
-
-- name: Wait for ports
-  wait_for:
-    port: "{{ item }}"
-    timeout: 100
-  loop:
-    - 443
-    - 8080
-  ignore_errors: true

@@ -12,6 +12,8 @@
     - curl
     - python3-pip
     - python3-setuptools
+    - aufs-dkms
+
 
 - name: Determine if docker is installed
   command: which docker
