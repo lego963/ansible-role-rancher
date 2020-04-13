@@ -1,19 +1,24 @@
 ---
-- name: Create volume for rancher
-  docker_volume:
+- name: Install ansible docker dependencies
+  pip:
+    name: docker
+    state: present
+    executable: pip3
+
+- name: Pull rancher image
+  docker_image:
+    name: rancher/rancher:latest
+    source: pull
+
+- name: Create rancher image
+  docker_container:
     name: rancher
-
-- name: Launch rancher on single node    # noqa 301 305
-  command: "docker run -d --restart=unless-stopped \
-    -p 8080:8080 -p 443:443 \
-    -v /opt/rancher:/var/lib/rancher \
-    rancher/rancher:stable"
-
-- name: Wait for ports
-  wait_for:
-    port: "{{ item }}"
-    timeout: 100
-  loop:
-    - 443
-    - 8080
-  ignore_errors: true
+    image: rancher/rancher:latest
+    published_ports:
+      - 0.0.0.0:443:443
+      - 0.0.0.0:8080:8080
+    restart_policy: unless-stopped
+    detach: yes
+    volumes:
+      - /host/rancher
+      - /var/lib/rancher

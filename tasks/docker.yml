@@ -6,10 +6,14 @@
 
 - name: Install curl and pip3
   apt:
-    name:
-      - curl
-      - python3-pip
-      - python3-setuptools
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - curl
+    - python3-pip
+    - python3-setuptools
+    - aufs-dkms
+
 
 - name: Determine if docker is installed
   command: which docker
@@ -17,37 +21,16 @@
   ignore_errors: true
   changed_when: false
 
-- name: Get docker version
-  shell: |
-    docker --version
-    awk '{ print $3 }'
+- name: Get docker version              # noqa 303 306
+  shell: docker --version | awk '{ print $3 }'
   register: docker_installed_version
   when: docker_installed is success
-  changed_when: false
 
-- name: Install or upgrade docker
-  shell: |    # noqa 303 305
-    curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh
-    sh
-  when: not docker_installed is success or
-    not docker_installed_version.stdout <= docker_version
+- name: Install or upgrade docker       # noqa 303 306
+  shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+  when: not docker_installed is success or docker_installed_version.stdout <= docker_version
 
-- name: Upgrade pip
-  pip:
-    executable: pip3
-    name: pip
-    state: forcereinstall
-  when:
-    - ansible_os_family == "Debian"
-    - not ansible_distribution == "Debian"
-
-- name: Install additional dependencies
-  pip:
-    executable: pip3
-    name: docker
-    state: forcereinstall
-
-- name: Make sure docker is running
+- name: Make sure dockerd is running
   service:
     name: docker
     state: started
