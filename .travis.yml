@@ -1,4 +1,6 @@
 ---
+os: linux
+dist: bionic
 language: python
 
 services:
@@ -9,7 +11,7 @@ env:
     - ROLE_NAME: rancher
   matrix:
     - DISTRO: ubuntu-18.04
-    - DISTRO: debian-stretch
+    - DISTRO: debian-buster
 
 install:
   - pip3 install 'molecule[docker]' ansible-lint flake8
