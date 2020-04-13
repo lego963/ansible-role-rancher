@@ -1,4 +1,54 @@
 ---
-- include: docker.yml
+- name: Install curl, pip3
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - curl
+    - python3-pip
+    - python3-setuptools
 
-- include: rancher.yml
+- name: Determine if docker is installed
+  command: which docker
+  register: docker_installed
+  ignore_errors: true
+  changed_when: false
+
+- name: Get docker version              # noqa 303 306
+  shell: docker --version | awk '{ print $3 }'
+  register: docker_installed_version
+  when: docker_installed is success
+
+- name: Install or upgrade docker       # noqa 303 306
+  shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+  when: not docker_installed is success or docker_installed_version.stdout <= docker_version
+
+- name: Make sure dockerd is running
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Install ansible docker dependencies
+  pip:
+    name: docker
+    state: present
+    executable: pip3
+
+- name: Pull rancher image
+  docker_image:
+    name: "{{ rancher_image }}"
+    source: pull
+
+- name: Create rancher image
+  docker_container:
+    name: rancher
+    image: "{{ rancher_image }}"
+    published_ports:
+      - 0.0.0.0:443:443
+      - 0.0.0.0:8080:8080
+    restart_policy: unless-stopped
+    detach: yes
+    volumes:
+      - /host/rancher
+      - /var/lib/rancher

@@ -9,11 +9,11 @@ lint: |
     flake8
 platforms:
     - name: instance
-      image: "python:3.7"
+      image: "darkwizard242/ansible:${DISTRO:-debian-stretch}"
       pre_build_image: true
       privileged: true
 provisioner:
     name: ansible
-    playbooks:
-        converge: converge.yml
+    connecion_options:
+        ansible_python_interpreter: "PYTHONPAHT=$PYTHONPATH:/usr/lib/python3/dist-packages /usr/bin/env python3"
     log: true
