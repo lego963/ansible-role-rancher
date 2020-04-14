@@ -10,7 +10,7 @@ env:
     - DISTRO: debian-buster
 
 install:
-  - pip3 install ansible-lint flake8
+  - pip3 install molecule ansible-lint flake8
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
