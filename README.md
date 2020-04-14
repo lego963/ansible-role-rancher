@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/github/lego963/ansible-role-rancher.svg?branch=master)](https://travis-ci.org/github/lego963/ansible-role-rancher)
+[![Build Status](https://travis-ci.org/lego963/ansible-role-rancher.svg?branch=master)](https://travis-ci.org/lego963/ansible-role-rancher)
 
 Ansible Role: Rancher
 =========
