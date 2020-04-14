@@ -1,10 +1,6 @@
 ---
-os: linux
-dist: bionic
 language: python
-
-services:
-  - docker
+services: docker
 
 env:
   global:
@@ -14,7 +10,7 @@ env:
     - DISTRO: debian-buster
 
 install:
-  - pip3 install 'molecule[docker]' ansible-lint flake8
+  - pip3 install ansible-lint flake8
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.

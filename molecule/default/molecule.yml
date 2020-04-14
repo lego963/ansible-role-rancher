@@ -2,7 +2,7 @@
 dependency:
     name: galaxy
 driver:
-    name: docker
+  name: docker
 lint: |
     yamllint .
     ansible-lint
