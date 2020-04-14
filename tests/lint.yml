@@ -1,5 +1,0 @@
----
-- name: Lint rancher role
-  hosts: all
-    - include_role:
-        name: lego963.rancher
