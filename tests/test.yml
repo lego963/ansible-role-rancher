@@ -1,0 +1,6 @@
+---
+- name: Test ansible role
+  become: yes
+  hosts: local
+  roles:
+    - lego963.rancher
