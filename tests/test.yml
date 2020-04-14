@@ -3,4 +3,4 @@
   become: yes
   hosts: local
   roles:
-    - ansible-role-rancher
+    - lego963.rancher
