@@ -1,6 +1,5 @@
 ---
 language: python
-services: docker
 
 env:
   global:
@@ -10,7 +9,7 @@ env:
     - DISTRO: debian-buster
 
 install:
-  - pip3 install 'molecule[docker]' ansible-lint flake8
+  - pip3 install ansible-lint flake8
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
@@ -19,7 +18,7 @@ before_script:
   - cd lego963.$ROLE_NAME
 
 script:
-  - molecule test
+  - ansible-playbook tests/test.yml -i tests/inventory
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
