@@ -18,7 +18,7 @@ before_script:
   - cd lego963.$ROLE_NAME
 
 script:
-  - ansible-lint tests/test.yml -i tests/inventory
+  - ansible-lint tests/test.yml
   - ansible-playbook tests/test.yml -i tests/inventory
 
 notifications:
