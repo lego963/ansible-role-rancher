@@ -2,12 +2,20 @@
 language: python
 
 env:
+  global:
+    - ROLE_NAME: rancher
   matrix:
     - DISTRO: ubuntu-18.04
     - DISTRO: debian-buster
 
 install:
   - pip3 install ansible-lint flake8
+
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv ansible-role-$ROLE_NAME lego963.$ROLE_NAME
+  - cd lego963.$ROLE_NAME
 
 script:
   - ansible-playbook tests/test.yml -i tests/inventory
